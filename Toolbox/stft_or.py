@@ -83,7 +83,13 @@ def spectrogram(S, output_path=None):
     import pylab as pl
     I, J = S.shape
     X, Y = pl.meshgrid(pl.arange(J+1), pl.arange(I+1))
-    pl.pcolor(X, Y, np.log(S))
+
+    #pl.pcolor(X, Y, np.log(S))#遅い
+    pl.figure()
+    pl.pcolormesh(X, Y, np.log(S))
+    pl.xlabel(u"Time-frame ")
+    pl.ylabel(u"Frequency [Hz]")
+
     if output_path is None:
         pl.show()
     else:

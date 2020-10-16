@@ -35,15 +35,15 @@ def fake_fdica(nch,data_n):
     #wavfile.write('ica_signal3.wav', 16000, mix_siganal_mat[:,2])
 
     #STFT & fake fdica prosses
-    fftSize=8*1024
-    shiftSize=2048
+    fftSize=2*1024
+    shiftSize=512
     S, window = stft.stft(dry_signal_mat, fftSize, shiftSize)
     Z = np.zeros_like(S)
 
     for freq in range(S.shape[0]):#S[4096,89,3]
       for aim_ch in range(nch):#対象ch数
         temp_est_activation = 0
-        main_rate = np.random.normal(0.92,0.05,1)
+        main_rate = np.random.normal(0.98,0.02,1)
         sub_rate = (1-main_rate)/(nch-1)
 
         for m in range(nch):#前ch数走査
@@ -57,7 +57,7 @@ def fake_fdica(nch,data_n):
 
     #print("{}ch fake-FDICA spectrogram is cooked".format(nch))
 
-    with open('./Output/fdiced_Z_spec/Z_'+str(n)+'.pickle', 'wb') as f:
+    with open(f'./Output/fdiced_Z_spec/{nch:01}_ch/Z_{n:01}.pickle', 'wb') as f:
       pickle.dump(Z,f)
     f.close
     if n%10==0:
@@ -72,7 +72,7 @@ def sum(a,b):
 #-----------------------------------------
 if __name__ == '__main__':
 
-  fake_fdica(nch=3,data_n=100)
+  fake_fdica(nch=2,data_n=100)
   #print(S)
   #print(Z)
 
